@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "amd",
+        "plugins": [{ "transform": "../transforms/before.ts" }],
+        "outFile": "tsnode.outfile.js"
+    }
+}

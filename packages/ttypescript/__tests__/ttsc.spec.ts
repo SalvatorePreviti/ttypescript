@@ -17,4 +17,12 @@ describe('ttsc', () => {
         });
         expect(readFileSync(__dirname + '/assets/tsnode.js', 'utf8').trim()).toBe(expectCode.trim());
     });
+
+    it('supports amd with outFile', () => {
+        execSync('node ' + configs.tscFromLibPath + ' -p ./tsconfig.amd.json', {
+            cwd: __dirname + '/assets/',
+            maxBuffer: 1e8,
+        });
+        expect(readFileSync(__dirname + '/assets/tsnode.amd.js', 'utf8').trim()).toBe(expectCode.trim());
+    })
 });

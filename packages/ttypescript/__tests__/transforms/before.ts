@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 export default function(program: ts.Program) {
     const checker = program.getTypeChecker();
-    return (ctx: ts.TransformationContext) => (sourceFile: ts.SourceFile) => {
+    return (ctx: ts.TransformationContext) => (startNode: ts.Node) => {
         function visitor(node: ts.Node): ts.Node {
             if (
                 ts.isCallExpression(node) &&
@@ -15,6 +15,13 @@ export default function(program: ts.Program) {
             }
             return ts.visitEachChild(node, visitor, ctx);
         }
-        return ts.visitEachChild(sourceFile, visitor, ctx);
+
+        if (ts.isBundle(startNode)) {
+            return ts.updateBundle(startNode, startNode.sourceFiles.map(
+                sourceFile => ts.visitEachChild(sourceFile, visitor, ctx)
+            ))
+        }
+
+        return ts.visitEachChild(startNode, visitor, ctx);
     };
 }
