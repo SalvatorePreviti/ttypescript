@@ -1,5 +1,5 @@
 function type() {
     return '';
 }
-var x = type();
+var x = "{ abc: 1; }";
 console.log(x);
